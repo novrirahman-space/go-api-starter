@@ -3,21 +3,28 @@ on:
   pull_request:
   push:
     branches: [ main ]
+
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # >>> Paksa versi Go modern (bukan dari image runner)
       - uses: actions/setup-go@v5
         with:
-          go-version-file: 'go.mod'
+          go-version: '1.22.6'
           check-latest: true
+          cache: false
 
-      - name: Go version
-        run: go version
+      # Debug: pastikan benar-benar 1.22.x
+      - name: Show Go env
+        run: |
+          which go || true
+          go version
+          go env GOROOT GOPATH GOTOOLCHAIN
 
-      - name: Cache Go
+      - name: Cache Go modules
         uses: actions/cache@v4
         with:
           path: |
