@@ -1,0 +1,18 @@
+version: 2
+builds:
+  - id: server
+    main: ./cmd/server
+    binary: go-api-starter
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+dockers:
+  - image_templates:
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}
+      - ghcr.io/novrirahman-space/go-api-starter:latest
+    dockerfile: Dockerfile
+    use: buildx
+release:
+  github:
+    owner: novrirahman-space
+    name: go-api-starter
