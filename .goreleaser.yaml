@@ -13,6 +13,7 @@ dockers:
   - ids: [server]  # gunakan binary dari build "server"
     dockerfile: Dockerfile.goreleaser
     use: buildx
+    push: true # push multi-arch image
     image_templates:
       - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}
       - ghcr.io/novrirahman-space/go-api-starter:latest
