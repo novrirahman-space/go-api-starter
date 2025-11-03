@@ -4,19 +4,18 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/rs/cors"
-	chimw "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/chi/v5"
+	chimw "github.com/go-chi/chi/v5/middleware"
 	"github.com/novrirahman-space/go-api-starter/internal/handlers"
 	"github.com/novrirahman-space/go-api-starter/internal/middleware"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/rs/cors"
 	"github.com/rs/zerolog"
 )
 
 func New(addr string, log zerolog.Logger) *http.Server {
 	r := chi.NewRouter()
 	r.Use(chimw.RequestID)
-	
 
 	// Middlewares
 	r.Use(middleware.RequestLogger(log))
@@ -28,9 +27,9 @@ func New(addr string, log zerolog.Logger) *http.Server {
 	r.Use(cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"*"},
+		AllowedHeaders:   []string{"*"},
 		AllowCredentials: true,
-		MaxAge: 300,
+		MaxAge:           300,
 	}).Handler)
 
 	// Routes
@@ -39,7 +38,7 @@ func New(addr string, log zerolog.Logger) *http.Server {
 	r.Handle("/metrics", promhttp.Handler())
 	r.Get("/healthz", handlers.Liveness)
 	r.Get("/readyz", handlers.Readiness)
-	
+
 	r.Get("/docs", handlers.Redoc("/openapi.yaml"))
 	r.Handle("/openapi.yaml", http.StripPrefix("/", http.FileServer(http.Dir("./api"))))
 

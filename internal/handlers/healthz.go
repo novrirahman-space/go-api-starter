@@ -7,8 +7,8 @@ import (
 )
 
 type Probe struct {
-	Status string `json:"status"`
-	Time time.Time `json:"time"`
+	Status string    `json:"status"`
+	Time   time.Time `json:"time"`
 }
 
 func Liveness(w http.ResponseWriter, r *http.Request) {
