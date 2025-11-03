@@ -6,6 +6,9 @@ run:
 test:
 	@go test ./... -race -coverprofile=coverage.out
 
+fmt:
+	go fmt ./...
+
 lint:
 	@golangci-lint run
 
