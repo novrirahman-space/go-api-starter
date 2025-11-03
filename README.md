@@ -19,8 +19,7 @@
 ✅ **Observability**
 - `/healthz` — Liveness probe  
 - `/readyz` — Readiness probe  
-- `/metrics` — Prometheus metrics  
-- `/v1/version` — Build info (commit, tag, build date)
+- `/metrics` — Prometheus metrics
 
 ✅ **Developer Experience**
 - Local dev with `air` or `make run`
@@ -54,14 +53,14 @@ go-api-starter/
 │   ├── logger/               # Zerolog setup
 │   ├── middleware/           # CORS, rate limit, metrics, etc.
 │   ├── server/               # Router + HTTP server setup
-│   └── version/              # Build metadata (injected via ldflags)
 ├── api/
 │   └── openapi.yaml          # API spec (served by /docs)
 ├── Dockerfile                # Local development Dockerfile
 ├── Dockerfile.goreleaser     # Runtime-only distroless image
 ├── .goreleaser.yaml          # Release automation config
 ├── .github/workflows/        # CI/CD pipelines
-├── go.mod / go.sum
+├── go.mod
+├── go.sum
 └── README.md
 ```
 
@@ -108,7 +107,6 @@ go tool cover -html=coverage.out
 | `/docs`         | GET             | OpenAPI Redoc docs                  |
 | `/openapi.yaml` | GET             | Raw OpenAPI YAML                    |
 | `/v1/users`     | GET/POST/DELETE | Example CRUD (in-memory)            |
-| `/v1/version`   | GET             | Returns version, commit, build date |
 
 ---
 
@@ -148,8 +146,6 @@ Available at /metrics
 | `/healthz` | Check if API is alive                       |
 | `/readyz`  | Check if dependencies (DB, cache) are ready |
 
-## 🧰 Build Information
-Injected via GoReleaser ldflags
 
 ## 🧭 OpenAPI Documentation
 OpenAPI spec file:
