@@ -1,0 +1,12 @@
+# Dockerfile.goreleaser — runtime-only image (tanpa build dari source)
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
+
+# Nama file binary mengikuti "binary:" di .goreleaser.yaml (go-api-starter)
+COPY go-api-starter /app/go-api-starter
+
+ENV APP_ENV=production
+ENV HTTP_ADDR=:8080
+
+EXPOSE 8080
+ENTRYPOINT ["/app/go-api-starter"]

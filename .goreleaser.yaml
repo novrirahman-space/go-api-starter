@@ -1,17 +1,25 @@
 version: 2
+
 builds:
   - id: server
     main: ./cmd/server
     binary: go-api-starter
     env: [CGO_ENABLED=0]
+    # Boleh build semua OS untuk release binaries...
     goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
+
 dockers:
-  - image_templates:
+  - ids: [server]  # gunakan binary dari build "server"
+    dockerfile: Dockerfile.goreleaser
+    use: buildx
+    image_templates:
       - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}
       - ghcr.io/novrirahman-space/go-api-starter:latest
-    dockerfile: Dockerfile
-    use: buildx
+    # build multi-arch
+    build_flag_templates:
+      - "--platform=linux/amd64,linux/arm64"
+
 release:
   github:
     owner: novrirahman-space
