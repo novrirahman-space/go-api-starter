@@ -1,45 +1,67 @@
-# .goreleaser.yaml
 version: 2
 
+# =======================
+# 1. Build Binary Section
+# =======================
 builds:
   - id: server
     main: ./cmd/server
     binary: go-api-starter
-    env: [CGO_ENABLED=0]
-    goos: [linux, darwin, windows]
-    goarch: [amd64, arm64]
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/novrirahman-space/go-api-starter/internal/version.Version={{.Version}}
+      - -X github.com/novrirahman-space/go-api-starter/internal/version.Commit={{.Commit}}
+      - -X github.com/novrirahman-space/go-api-starter/internal/version.BuildDate={{.Date}}
 
+# ===========================
+# 2. Docker Image Build Rules
+# ===========================
 dockers:
-  # AMD64 image
+  # --- AMD64 Image ---
   - ids: [server]
     dockerfile: Dockerfile.goreleaser
     use: buildx
     image_templates:
-      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-amd64
-      - ghcr.io/novrirahman-space/go-api-starter:latest-amd64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-amd64
     build_flag_templates:
       - "--platform=linux/amd64"
       - "--push"
 
-  # ARM64 image
+  # --- ARM64 Image ---
   - ids: [server]
     dockerfile: Dockerfile.goreleaser
     use: buildx
     image_templates:
-      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-arm64
-      - ghcr.io/novrirahman-space/go-api-starter:latest-arm64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-arm64
     build_flag_templates:
       - "--platform=linux/arm64"
       - "--push"
 
+# ===========================
+# 3. Multi-Arch Manifest List
+# ===========================
 docker_manifests:
-  - name_templates:
-      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}
-      - ghcr.io/novrirahman-space/go-api-starter:latest
+  - name_template: ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}
     image_templates:
-      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-amd64
-      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-arm64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-amd64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-arm64
+  - name_template: ghcr.io/novrirahman-space/go-api-starter:latest
+    image_templates:
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-amd64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Version }}-arm64
 
+# ===========================
+# 4. Release Configuration
+# ===========================
 release:
   github:
     owner: novrirahman-space
