@@ -197,5 +197,5 @@ Use clear prefixes:
 | **Registry**  | GHCR                        | Private/public image hosting |
 
 ## 🌟 Support & Feedback
-If you find this project useful, give it a ⭐ on GitHub!
-If you find bugs or have ideas, please open an issue.
+✅ If you find this project useful, give it a ⭐ on GitHub!
+✅ If you find bugs or have ideas, please open an issue.
