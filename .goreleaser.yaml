@@ -1,3 +1,4 @@
+# .goreleaser.yaml
 version: 2
 
 builds:
@@ -5,21 +6,39 @@ builds:
     main: ./cmd/server
     binary: go-api-starter
     env: [CGO_ENABLED=0]
-    # Boleh build semua OS untuk release binaries...
     goos: [linux, darwin, windows]
     goarch: [amd64, arm64]
 
 dockers:
-  - ids: [server]  # gunakan binary dari build "server"
+  # AMD64 image
+  - ids: [server]
     dockerfile: Dockerfile.goreleaser
     use: buildx
     image_templates:
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-amd64
+      - ghcr.io/novrirahman-space/go-api-starter:latest-amd64
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--push"
+
+  # ARM64 image
+  - ids: [server]
+    dockerfile: Dockerfile.goreleaser
+    use: buildx
+    image_templates:
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-arm64
+      - ghcr.io/novrirahman-space/go-api-starter:latest-arm64
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--push"
+
+docker_manifests:
+  - name_templates:
       - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}
       - ghcr.io/novrirahman-space/go-api-starter:latest
-    # build multi-arch
-    build_flag_templates:
-      - "--platform=linux/amd64,linux/arm64"
-      - "--push"
+    image_templates:
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-amd64
+      - ghcr.io/novrirahman-space/go-api-starter:{{ .Tag }}-arm64
 
 release:
   github:
