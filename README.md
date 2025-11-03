@@ -63,6 +63,7 @@ go-api-starter/
 ├── .github/workflows/        # CI/CD pipelines
 ├── go.mod / go.sum
 └── README.md
+```
 
 ---
 
@@ -71,24 +72,29 @@ go-api-starter/
 ### 1️⃣ Run directly with Go
 ```bash
 go run ./cmd/server
+```
 
 ### 2️⃣ Using Docker
 ```bash
 docker build -t go-api-starter .
 docker run -p 8080:8080 go-api-starter
+```
 
 ### 3️⃣ Using Docker Compose (recommended for local stack)
 ```bash
 docker compose up --build
+```
 
 ```bash
 This will spin up the API container and expose port 8080.
 You can then test the endpoints using curl or Postman.
+```
 
 ### 4️⃣ Run tests and coverage
 ```bash
 go test ./... -race -coverprofile=coverage.out
 go tool cover -html=coverage.out
+```
 
 ---
 
@@ -112,6 +118,7 @@ go tool cover -html=coverage.out
 ```bash
 docker pull ghcr.io/novrirahman-space/go-api-starter:latest
 docker run -p 8080:8080 ghcr.io/novrirahman-space/go-api-starter:latest
+```
 
 ### ☁️ Multi-architecture Support
 The container supports:
@@ -151,6 +158,7 @@ api/openapi.yaml
 Preview via:
 ```bash
 http://localhost:8080/docs
+```
 
 ## 🧑‍💻 Contribution Guide
 
@@ -160,12 +168,14 @@ All commits follow Conventional Commits:
 feat(auth): add JWT middleware
 fix(router): resolve panic on shutdown
 chore(ci): update GoReleaser config
+```
 
 ### ✅ Lint & Test before push
 ```bash
 go vet ./...
 go fmt ./...
 go test ./...
+```
 
 ### 🚧 Branch Naming Convention
 Use clear prefixes:
