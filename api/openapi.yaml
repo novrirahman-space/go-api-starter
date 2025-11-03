@@ -1,0 +1,26 @@
+mkdir -p api
+cat > api/openapi.yaml <<'YAML'
+openapi: 3.0.3
+info:
+  title: go-api-tarter
+  version: 0.1.0
+paths:
+  /healthz:
+    get:
+      responses:
+        '200': {
+          description: Liveness
+        }
+  /readyz:
+    get:
+      responses:
+        '200': {
+          description: Readiness
+        }
+  /v1/example:
+    get:
+      responses:
+        '200': {
+          description: Example response
+        }
+YAML

@@ -36,6 +36,12 @@ jobs:
       - run: go clean -testcache
       - run: go test ./... -race -coverprofile=coverage.out
 
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.out
+
       - name: Install golangci-lint
         run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
